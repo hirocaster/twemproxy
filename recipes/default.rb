@@ -14,10 +14,11 @@ template "nutcracker-conf" do
     source "nutcracker.conf.erb"
     mode 0644
     variables :sections => node[:twemproxy][:config]
-    notifies :restart, "service[#{node[:twemproxy][:package]}]"
+    notifies :restart, "service[nutcracker]"
 end
 
-service "node[:twemproxy][:package]" do
+service "nutcracker" do
+    service_name node[:twemproxy][:package]
     action [:enable, :start]
     supports :reload => true, :restart => true, :status => true
     subscribes :restart, resources(:template => "nutcracker-conf")
