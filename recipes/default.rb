@@ -17,7 +17,7 @@ template "nutcracker-conf" do
     notifies :restart, "service[nutcracker]"
 end
 
-service "nutcracker" do
+service "node[:twemproxy][:package]" do
     action [:enable, :start]
     supports :reload => true, :restart => true, :status => true
     subscribes :restart, resources(:template => "nutcracker-conf")
